@@ -1,3 +1,7 @@
+import { SlidePageModule } from './../pages/slide/slide.module';
+import { PesquisarPageModule } from './../pages/pesquisar/pesquisar.module';
+import { ContatoPageModule } from './../pages/contato/contato.module';
+import { IntroPageModule } from './../pages/intro/intro.module';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -12,6 +16,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -21,6 +26,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TabsPage
   ],
   imports: [
+    IntroPageModule,
+    ContatoPageModule,
+    PesquisarPageModule,
+    SlidePageModule,
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp)
@@ -39,4 +48,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
-export class AppModule {}
+export class AppModule {
+  public static title:string = 'essaude';
+
+}

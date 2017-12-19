@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      
+  
+      <ion-title text-center>ES Saúde</ion-title>
+  
+  
+    </ion-toolbar>
+  </ion-header>
+  
+
+<ion-content>
+
+    <ion-item>
+        <ion-label>CIDADE</ion-label>
+        <ion-select [(ngModel)]="toppings">
+          <ion-option>Bacon</ion-option>
+          <ion-option>Black Olives</ion-option>
+          <ion-option>Extra Cheese</ion-option>
+          <ion-option>Mushrooms</ion-option>
+          <ion-option>Pepperoni</ion-option>
+          <ion-option>Sausage</ion-option>
+        </ion-select>
+      </ion-item>
+
+        <ion-slides pager loop=true zoom=true autoplay=2000 effect="slide" paginationType="bullets" speed=1000>
+            <ion-slide style="background-color: green">
+                <h2>Slide 1</h2>
+              </ion-slide>
+                            
+              <ion-slide style="background-color: blue">
+                <h2>Slide 2</h2>
+              </ion-slide>
+            
+              <ion-slide style="background-color: red">
+                <h2>Slide 3</h2>
+              </ion-slide>
+        </ion-slides>
+
+</ion-content>
