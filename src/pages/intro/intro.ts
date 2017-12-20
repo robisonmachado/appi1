@@ -19,22 +19,18 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class IntroPage {
   
-  tab1Root = SlidePage;
-  tab2Root = PesquisarPage;
-  tab3Root = ContatoPage;
+    tab1Root = SlidePage;
+    tab2Root = PesquisarPage;
+    tab3Root = ContatoPage;
 
-  @ViewChild(Nav) nav: Nav;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    //this.navCtrl.setRoot(ContatoPage);
-  }
+    @ViewChild(Nav) nav: Nav;
+    
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+      //this.navCtrl.setRoot(ContatoPage);
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad IntroPage');
-  }
-
-  irParaTabsPage(){
-    this.navCtrl.push(TabsPage);
-  }
+    irParaTabsPage(){
+      this.navCtrl.push(TabsPage);
+    }
 
 }

@@ -7,6 +7,7 @@ page-slide {
 
 ion-slides{
     margin-top: 3vh;
+    height: 60vh;
 }
 
 .labelListaCidades{
@@ -35,3 +36,14 @@ p{
     font-size: 1em;
     border: 0.1em red thin;
 }
+
+ion-slide{
+    height: 60vh;
+}
+
+ion-slide img {
+    
+    height: 60vh !important;
+    width: auto !important;   
+    
+  }
