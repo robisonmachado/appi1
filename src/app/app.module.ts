@@ -17,6 +17,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TokenProvider } from '../providers/token/token';
 
+import 'materialize-css';
+import { MaterializeModule } from 'angular2-materialize';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { TokenProvider } from '../providers/token/token';
     SlidePageModule,
     BrowserModule,
     HttpModule,
+    MaterializeModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

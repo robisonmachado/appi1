@@ -17,7 +17,7 @@ export class SlidePage {
     mode: 'md'
   };
 
-  public cidades: Observable< any[]>;
+  public cidades: Observable<any[]>;
 
   public cidadeEscolhida: string;
 

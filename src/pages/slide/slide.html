@@ -9,14 +9,14 @@
 </ion-header>
 
   
-
 <ion-content text-center>
-
+  
+ 
     <ion-item>
       
         <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
 
-        <ion-select [(ngModel)]="cidadeEscolhida" interface=popover [selectOptions]="selectOptions">
+        <ion-select [(ngModel)]="cidadeEscolhida" [selectOptions]="selectOptions">
           <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
         </ion-select>
       </ion-item>
@@ -39,6 +39,8 @@
               </ion-slide>
         </ion-slides>
 
-        <p color="black" outline round>ENCONTRE E VEJA OS CONTATOS DOS MELHORES PROFISIONAIS DO ESPÍRITO SANTO AQUI!</p>
+        <!-- <p color="black" outline round>ENCONTRE AQUI OS MELHORES PROFISIONAIS DO ESPÍRITO SANTO!</p> -->
+        <p color="black" outline round>ENCONTRE AQUI</p>
+        <p color="black" outline round>OS MELHORES PROFISIONAIS DO ESPÍRITO SANTO</p>
 
 </ion-content>

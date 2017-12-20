@@ -9,8 +9,53 @@
 </ion-header>
 
 
-<ion-content padding>
 
-  <h1>PESQUISAR</h1>
+<ion-content padding text-center>
+  
+  
+  
+<!--
+  <ul materialize="collapsible" class="collapsible" data-collapsible="accordion" text-left>
+    <li text-left>
+      <div class="collapsible-header">Dr. João da Silva</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header">Drª Julia Moraes Feliciano</div>
+      <div class="collapsible-body">
+
+          <img src="assets/imgs/saude1.jpg" class="slide-image"/>
+
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header">Dr. Marcos Roberto Gomes</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+  
+-->
+  
+  <h1>PESQUISAR PROFISSIONAL</h1>
+  <ion-item>
+      
+    <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
+
+    <ion-select [(ngModel)]="cidadeEscolhida" [selectOptions]="selectOptions">
+      <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+      <ion-list-header>
+        Ionic 2 Accordion Example
+      </ion-list-header>
+      <div *ngFor="let d of data" (click)="toggleDetails(d, $event)">
+          <button ion-button full>{{d.title}}</button>          
+        <div *ngIf="d.showDetails">{{d.details}}</div>
+      </div>
+    </ion-list>
+
+  
 
 </ion-content>
