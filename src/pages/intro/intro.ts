@@ -1,8 +1,8 @@
 import { SlidePage } from './../slide/slide';
 import { ContatoPage } from './../contato/contato';
 import { PesquisarPage } from './../pesquisar/pesquisar';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 
 /**
@@ -21,10 +21,12 @@ export class IntroPage {
   
   tab1Root = SlidePage;
   tab2Root = PesquisarPage;
-  //tab2Root = TabsPage;
   tab3Root = ContatoPage;
 
+  @ViewChild(Nav) nav: Nav;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    //this.navCtrl.setRoot(ContatoPage);
   }
 
   ionViewDidLoad() {

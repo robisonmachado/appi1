@@ -1,12 +1,8 @@
+
+import { TokenProvider } from './../../providers/token/token';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the SlidePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -15,7 +11,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SlidePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  selectOptions = {
+    title: 'LISTA DE CIDADES',
+    subTitle: 'Toque na cidade para escolher',
+    mode: 'md'
+  };
+
+  public cidades: Observable< any[]>;
+
+  public cidadeEscolhida: string;
+
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private tokenProvider: TokenProvider) {
+  }
+
+  ngOnInit() {
+    
+    this.cidades = this.tokenProvider.builder('cidade').list();
   }
 
   ionViewDidLoad() {

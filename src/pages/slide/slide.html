@@ -1,25 +1,23 @@
-<ion-header>
-    <ion-toolbar color="primary">
-      
-  
-      <ion-title text-center>ES Saúde</ion-title>
-  
-  
-    </ion-toolbar>
-  </ion-header>
+<ion-header >
+  <ion-navbar color=danger text-center>
+
+    <h1>ES Saúde</h1>
+    <h2>"Os melhores profissionais estão aqui"</h2>
+
+
+  </ion-navbar>
+</ion-header>
+
   
 
-<ion-content>
+<ion-content text-center>
 
     <ion-item>
-        <ion-label>CIDADE</ion-label>
-        <ion-select [(ngModel)]="toppings">
-          <ion-option>Bacon</ion-option>
-          <ion-option>Black Olives</ion-option>
-          <ion-option>Extra Cheese</ion-option>
-          <ion-option>Mushrooms</ion-option>
-          <ion-option>Pepperoni</ion-option>
-          <ion-option>Sausage</ion-option>
+      
+        <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
+
+        <ion-select [(ngModel)]="cidadeEscolhida" interface=popover [selectOptions]="selectOptions">
+          <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -36,5 +34,7 @@
                 <h2>Slide 3</h2>
               </ion-slide>
         </ion-slides>
+
+        <p color="black" outline round>ENCONTRE E VEJA OS CONTATOS DOS MELHORES PROFISIONAIS DO ESPÍRITO SANTO AQUI!</p>
 
 </ion-content>
