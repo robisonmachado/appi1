@@ -41,7 +41,9 @@
       
     <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
 
-    <ion-select [(ngModel)]="cidadeEscolhida" [selectOptions]="selectOptions">
+    <ion-select [(ngModel)]="cidadeEscolhida" 
+                [selectOptions]="selectOptions"
+                okText="OK" cancelText="Cancelar">
       <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
     </ion-select>
   </ion-item>

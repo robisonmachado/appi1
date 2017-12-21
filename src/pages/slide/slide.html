@@ -11,15 +11,21 @@
   
 <ion-content text-center>
   
- 
+    <!-- <button ion-button full>CLIQUE AQUI PARA ESCOLHER A CIDADE</button> -->
+
+    
     <ion-item>
       
         <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
 
-        <ion-select [(ngModel)]="cidadeEscolhida" [selectOptions]="selectOptions">
+        <ion-select [(ngModel)]="cidadeEscolhida" 
+        [selectOptions]="selectOptions"
+        okText="OK" cancelText="Cancelar">
           <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
         </ion-select>
-      </ion-item>
+    </ion-item>
+
+  
 
         <ion-slides pager loop=true zoom=true autoplay=2000 effect="slide" paginationType="bullets" speed=1000>
             <ion-slide>

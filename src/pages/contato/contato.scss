@@ -1,3 +1,27 @@
 page-contato {
+    
+    ion-header{
+        h1{
+            margin-top: 0;
+            color: black;
+            font-size: x-large;
+        }
+        
+        h2 {
+            margin-top: 0;
+            color: black;
+            font-size: smaller;
+        }
 
+    }
+
+    ion-input:hover {
+        background-color: lightcyan;
+        font-weight: bold;
+    }
+
+    ion-input:active{
+        background-color: lightcyan;
+        font-weight: bold;
+    }
 }

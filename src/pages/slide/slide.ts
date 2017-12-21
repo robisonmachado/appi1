@@ -1,7 +1,7 @@
 
 import { TokenProvider } from './../../providers/token/token';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
@@ -11,6 +11,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class SlidePage {
 
+  public loading: Loading;
+  
   selectOptions = {
     title: 'LISTA DE CIDADES',
     subTitle: 'Toque na cidade para escolher',
@@ -24,12 +26,32 @@ export class SlidePage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private tokenProvider: TokenProvider) {
-  }
+    private tokenProvider: TokenProvider,
+    public loadingCtrl: LoadingController
+    ) {
+  
+      this.loading = this.loadingCtrl.create({
+        content: 'Buscando dados dos profissionais...'
+      });
+
+    }
 
   ngOnInit() {
-    
+    this.loading = this.loadingCtrl.create({
+      content: `
+      <div text-center>
+        <div>Seja Bem-Vindo!</div>
+        <div>Estou buscando os dados dos profissionais para você!</div>
+      </div>
+      `
+    });
+
+    this.loading.present();
+
     this.cidades = this.tokenProvider.builder('cidade').list();
+
+    this.cidades.subscribe( resposta => this.loading.dismiss());
+
   }
 
   ionViewDidLoad() {

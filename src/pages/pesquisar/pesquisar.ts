@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { TokenProvider } from '../../providers/token/token';
 import { Observable } from 'rxjs/Observable';
+
 
 
 @IonicPage()
@@ -12,7 +13,10 @@ import { Observable } from 'rxjs/Observable';
 export class PesquisarPage {
 
   public cidades: Observable<any[]>;
+  public especialidades: Observable<any[]>;
   public cidadeEscolhida: string;
+
+  public loading: Loading;
 
   selectOptions = {
     title: 'LISTA DE CIDADES',
@@ -22,7 +26,12 @@ export class PesquisarPage {
 
   data: Array<{title: string, details: string, icon: string, showDetails: boolean}> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private tokenProvider: TokenProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private tokenProvider: TokenProvider,
+    public loadingCtrl: LoadingController
+  ) {
     for(let i = 0; i < 10; i++ ){
       this.data.push({
           title: i%2 == 0 ? 'Dr. João da Silva '+i : 'Drª Mariana Teles Alves '+i ,
@@ -31,7 +40,13 @@ export class PesquisarPage {
           showDetails: false
         });
     }
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Buscando dados dos profissionais...'
+    });
+
   }
+
 
   toggleDetails(data, event) {
     console.log(data);
@@ -48,7 +63,13 @@ export class PesquisarPage {
   }
 
   ngOnInit() {
-    this.cidades = this.tokenProvider.builder('cidade').list();
+    this.loading.present();
+
+    this.cidades = this.tokenProvider.builder('especialidade').list();
+    
+    this.cidades.subscribe( resposta => this.loading.dismiss() );
+
+    this.especialidades = this.tokenProvider.builder('especialidade').list();
   }
 
 
