@@ -38,8 +38,8 @@ export class TokenProvider {
     
         this.accessToken = this.getAccesstoken();
         
-        console.log('setAccessToken >>> this.accessToken => '+this.accessToken);
-        console.log(this.headers.toJSON());
+        //console.log('setAccessToken >>> this.accessToken => '+this.accessToken);
+        //console.log(this.headers.toJSON());
 
         return this.accessToken;
     }
@@ -70,7 +70,7 @@ export class TokenProvider {
     }
 
     list(): Observable< any[] >{
-
+        
         return this.setAccessToken()
         .do( () => {} )
         .flatMap(
@@ -79,10 +79,10 @@ export class TokenProvider {
             this.headers.append('Accept', 'application/json');
             this.headers.append('Authorization', 'Bearer '+accessToken);
 
-            console.log('list => headers');
-            console.log(this.headers);
-            console.log('list => accessToken');
-            console.log(accessToken);
+            //console.log('list => headers');
+            //console.log(this.headers);
+            //console.log('list => accessToken');
+            //console.log(accessToken);
 
             return this.http.get(this.url, { headers: this.headers }).map(
             (res : any ) => {
