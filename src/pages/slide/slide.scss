@@ -1,12 +1,11 @@
 page-slide {
     
     ion-item ion-label{
-        
+        color: darkred !important;
+        font-weight: bold !important;
     }
 
-    ion-item ion-select{
-        
-    }
+    
 
     ionic-content > button{
         background-color: darkred !important;
@@ -23,7 +22,7 @@ page-slide {
 
     ion-slides{
         margin-top: 3vh;
-        height: 60vh;
+        height: 55vh;
     }
     
     .labelListaCidades{
@@ -50,19 +49,18 @@ page-slide {
    
     
     p{
-        width: 90vw;
-        font-weight: bold;
+        font-weight: bold !important;
         font-size: 1em;
-        border: 0.1em red thin;
+        color: black !important;
     }
     
     ion-slide{
-        height: 60vh;
+        height: 55vh;
     }
     
     ion-slide img {
         
-        height: 60vh !important;
+        height: 55vh !important;
         width: auto !important;   
         
       }

@@ -1,0 +1,35 @@
+<ion-header >
+  <ion-navbar color=danger text-center>
+
+    <h1>ES Saúde</h1>
+    <h2>"Os melhores profissionais estão aqui"</h2>
+
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding text-center>
+
+  <button ion-button color="dark" block >CIDADE: Marataízes</button> 
+  <button ion-button color="dark" block >ESPECIALIDADE: Cardiologista</button>
+  
+
+
+  <ion-list>
+      <ion-list-header>
+        Profissionais Encontrados
+      </ion-list-header>
+      <div *ngFor="let profissional of profissionais" >
+        <button ion-button full (click)="abrirFecharInformacoes()">{{profissional.nome}}</button>          
+        <div primary [@animacao2]='exibirInformacoes'>
+          
+          <div class="detalhesProfissional" >
+            {{profissional.detalhes}}
+          </div>
+        </div>
+      </div>
+  </ion-list>
+
+
+</ion-content>

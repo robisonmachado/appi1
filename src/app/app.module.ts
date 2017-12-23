@@ -1,3 +1,4 @@
+import { ResultadoPesquisaPageModule } from './../pages/resultado-pesquisa/resultado-pesquisa.module';
 import { SlidePageModule } from './../pages/slide/slide.module';
 import { PesquisarPageModule } from './../pages/pesquisar/pesquisar.module';
 import { ContatoPageModule } from './../pages/contato/contato.module';
@@ -19,6 +20,8 @@ import { TokenProvider } from '../providers/token/token';
 
 import 'materialize-css';
 import { MaterializeModule } from 'angular2-materialize';
+import { ResultadoPesquisaPage } from '../pages/resultado-pesquisa/resultado-pesquisa';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,10 +35,12 @@ import { MaterializeModule } from 'angular2-materialize';
     IntroPageModule,
     ContatoPageModule,
     PesquisarPageModule,
+    ResultadoPesquisaPageModule,
     SlidePageModule,
     BrowserModule,
     HttpModule,
     MaterializeModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

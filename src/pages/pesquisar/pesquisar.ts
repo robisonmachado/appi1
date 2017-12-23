@@ -1,7 +1,9 @@
+import { ResultadoPesquisaPage } from './../resultado-pesquisa/resultado-pesquisa';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { TokenProvider } from '../../providers/token/token';
 import { Observable } from 'rxjs/Observable';
+import { concat } from 'rxjs/observable/concat';
 
 
 
@@ -38,6 +40,34 @@ export class PesquisarPage {
     public alertCtrl: AlertController
   ) {
 
+    let cidadesParam = navParams.get('cidades');
+    console.log('params: cidades >>>');
+    console.log(cidadesParam);
+
+
+    let especialidadesParam = navParams.get('especialidades');
+    console.log('params: especialidades >>>');
+    console.log(especialidadesParam);
+
+    let cidadeEscolhidaParam = navParams.get('cidadeEscolhida');
+    console.log('params: cidadeEscolhida >>>');
+    console.log(cidadeEscolhidaParam);
+
+    if(cidadesParam){
+      console.log('setando cidades -->');
+      this.cidades = cidadesParam;
+    }
+    
+    if(especialidadesParam){
+      console.log('setando especialidades -->');
+      this.especialidades = especialidadesParam;
+    }
+
+    if(cidadeEscolhidaParam){
+      console.log('setando cidade escolhida -->');
+      this.cidadeEscolhida = cidadeEscolhidaParam;
+    }
+
     for(let i = 0; i < 10; i++ ){
       this.data.push({
           title: i%2 == 0 ? 'Dr. João da Silva '+i : 'Drª Mariana Teles Alves '+i ,
@@ -69,30 +99,84 @@ export class PesquisarPage {
   }
 
   ngOnInit() {
+    console.log('ngOnInit --> cidades e especialidades');
     console.log(this.cidades);
     console.log(this.especialidades);
-    //console.log(this.especialidades && this.cidades);
-
-    this.loading.present();
-
+    
     this.especialidadesObservable = this.tokenProvider.builder('especialidade').list();
     
-    this.cidadesObservable = this.especialidadesObservable
-    .do( especialidades => {
-      console.log('especialidades >>>');
-      console.log(especialidades);
-      this.especialidades=especialidades;
-    } )
-    .flatMap( (especialidades) => {
-      return this.cidadesObservable = this.tokenProvider.builder('cidade').list();
-    });
+    console.log('ngOnInit: this.cidades.length');
+    console.log(this.cidades);
+    
+    this.loading.present();
 
-    this.cidadesObservable.subscribe( (cidades) => {
-      console.log('cidades >>>');
-      console.log(cidades);
-      this.cidades=cidades;
+    if(0 == this.cidades.length && 0 == this.especialidades.length){
+      console.log('ngOnInit 1 >>> 0 == this.cidades.length && 0 == this.especialidades.length');
+
+      this.cidadesObservable = this.especialidadesObservable
+      .do( especialidades => {
+        console.log('especialidades >>>');
+        console.log(especialidades);
+        this.especialidades=especialidades;
+      } )
+      .flatMap( (especialidades) => {
+        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();
+      });
+  
+      console.log('subscribing on cidades');
+
+      this.cidadesObservable.subscribe( (cidades) => {
+        console.log('cidades >>>');
+        console.log(cidades);
+        this.cidades=cidades;
+        this.loading.dismiss();
+      } );
+
+    }else if(this.cidades.length > 0 && 0 == this.especialidades.length){
+      console.log('ngOnInit 2 >>> this.cidades.length > 0 && 0 == this.especialidades.length');
+      
+      this.cidadesObservable = this.especialidadesObservable
+      .do( especialidades => {
+        console.log('especialidades >>>');
+        console.log(especialidades);
+        this.especialidades=especialidades;
+        
+      } )
+      .flatMap( (especialidades) => {
+        console.log('ngOnInit 2 >>> this.loading.dismiss()');
+        this.loading.dismiss();
+        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();
+      });
+
+      this.cidadesObservable.subscribe();
+  
+    }
+    else if(0 == this.cidades.length && this.especialidades.length > 0){
+      
+      this.cidadesObservable = this.especialidadesObservable
+      .do( especialidades => {
+        
+      } )
+      .flatMap( (especialidades) => {
+        this.loading.dismiss();
+        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();        
+      });
+
+      this.cidadesObservable.subscribe();
+  
+    }
+    else if(this.cidades.length > 0 && this.especialidades.length > 0){
+
+      console.log('loading _state');
+      console.log(this.loading.isFirst());
       this.loading.dismiss();
-    } );
+      console.log(this.loading.isFirst());
+
+    }
+
+    if(this.cidadeEscolhida && this.especialidadeEscolhida){
+      this.fazerPesquisa();
+    }
 
   }
 
@@ -126,6 +210,7 @@ export class PesquisarPage {
           handler: (data: any) => {
               console.log('Checkbox data:', data);
               this.cidadeEscolhida = data;
+              this.fazerPesquisa();
             
           }
         });
@@ -149,7 +234,7 @@ export class PesquisarPage {
           handler: (data: any) => {
               console.log('Checkbox data:', data);
               this.especialidadeEscolhida = data;
-            
+              this.fazerPesquisa();            
           }
         });
 
@@ -157,6 +242,15 @@ export class PesquisarPage {
     
       alert.present();
 
+  }
+
+  fazerPesquisa(){
+    console.log('fazerPesquisa');
+    if(this.cidadeEscolhida && this.especialidadeEscolhida){
+      console.log('pesquisando profissionais ===> ');
+      console.log('cidade: ' + this.cidadeEscolhida + ' - especialidade: '+this.especialidadeEscolhida);
+      this.navCtrl.push(ResultadoPesquisaPage);
+    }
   }
 
 

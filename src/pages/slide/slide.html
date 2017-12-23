@@ -11,24 +11,42 @@
   
 <ion-content text-center>
   
-    <!-- <button ion-button full>CLIQUE AQUI PARA ESCOLHER A CIDADE</button> -->
-
-    
-    <ion-item>
-      
-        <ion-label color=black class="labelListaCidades">CLIQUE AQUI PARA ESCOLHER A CIDADE</ion-label>
-
-        <ion-select [(ngModel)]="cidadeEscolhida" 
-        [selectOptions]="selectOptions"
-        okText="OK" cancelText="Cancelar">
-          <ion-option *ngFor="let cidade of cidades | async"> {{ cidade.nome }}</ion-option>
-        </ion-select>
+   
+    <ion-item>      
+      <ion-label black text-center 
+          (click)="fazerListaEscolha('cidades')"> 
+            {{ cidadeEscolhida != null ? cidadeEscolhida : 'CLIQUE AQUI E ESCOLHA A CIDADE' }}
+      </ion-label>
     </ion-item>
+
+   
 
   
 
         <ion-slides pager loop=true zoom=true autoplay=2000 effect="slide" paginationType="bullets" speed=1000>
+            
             <ion-slide>
+                <img src="http://revistacomunique.com.br/site/wp-content/uploads/2016/05/Saude-do-Coracao.jpg" class="slide-image"/>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="http://divinews.com/wp-content/uploads/2017/08/vigilancia-saude.jpg" class="slide-image"/>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="http://www.revistaapolice.com.br/wp-content/uploads/2016/08/14_-das-empresas-possuem-programas-de-gestão-em-saúde.jpg" class="slide-image"/>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="http://www.saude.salvador.ba.gov.br/wp-content/uploads/2013/12/saude-para-voce-2-702x336.jpg" class="slide-image"/>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="http://medicinarosario.com.br/wp-content/uploads/2016/05/plano-saude.jpg" class="slide-image"/>
+            </ion-slide>
+
+          <!--
+          <ion-slide>
               <img src="assets/imgs/saude1.jpg" class="slide-image"/>
               </ion-slide>
                             
@@ -43,10 +61,13 @@
               <ion-slide>
                 <img src="assets/imgs/saude4.jpg" class="slide-image"/>
               </ion-slide>
+            -->
         </ion-slides>
 
-        <!-- <p color="black" outline round>ENCONTRE AQUI OS MELHORES PROFISIONAIS DO ESPÍRITO SANTO!</p> -->
-        <p color="black" outline round>ENCONTRE AQUI</p>
-        <p color="black" outline round>OS MELHORES PROFISIONAIS DO ESPÍRITO SANTO</p>
+        
+        <ion-item text-center>
+          <p color="black" outline round text-center>ENCONTRE AQUI</p>
+          <p color="black" outline round text-center>OS MELHORES PROFISIONAIS DO ESPÍRITO SANTO</p>
+        </ion-item>
 
 </ion-content>
