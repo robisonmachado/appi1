@@ -12,43 +12,22 @@ import { trigger,state,style,query,transition,animate,keyframes, animateChild } 
     trigger('animacao', [
 
       state('fechar', style({
-          opacity:0
-        
+          opacity:0,
+          transform: 'translateY(-100%)',
+          display: 'none'        
       })),
 
       state('abrir', style({
-        opacity:1
+        opacity:1,
+        
       })),
 
-      transition('* => *', animate('4000ms ease-in')),
+      transition('* => *', animate('300ms ease-in')),
 
 
     ]),
 
-    trigger('animacao2', [
-
-      state('fechar', style({
-          opacity:0
-        
-      })),
-
-      state('abrir', style({
-        opacity:1
-      })),
-
-      transition('* => *', 
-        //[style({ opacity: 0 }),  animateChild(), animate('1000ms ease-in')]
-        query('div', [style({ opacity: 0 }),  animateChild(), animate('1000ms ease-in')])
-    
-      ),
-
-    
-
-    ]),
-
-
-  
-     
+   
 
   ]
 
@@ -56,26 +35,33 @@ import { trigger,state,style,query,transition,animate,keyframes, animateChild } 
    
 
 
-
-
 export class ResultadoPesquisaPage {
 
   exibirInformacoes: string = 'abrir';
   estado: boolean = false;
 
-  abrirFecharInformacoes(){
+  abrirFecharInformacoes(profissional: {nome:string, detalhes: string, exibirInformacoes: string}){
     this.exibirInformacoes = (this.exibirInformacoes == 'fechar' ? 'abrir' : 'fechar');
-    console.log('abrirFecharInformacoes ==> '+this.exibirInformacoes);
+    
+    if( profissional.exibirInformacoes === undefined){
+      profissional.exibirInformacoes = 'fechar';
+      console.log('abrirFecharInformacoes -> profissional ==>  definindo exibirInformacoes = ', profissional.exibirInformacoes);
+      return;
+    }else{
+      profissional.exibirInformacoes = (profissional.exibirInformacoes === 'abrir' ? 'fechar' : 'abrir');
+    }
+    
+    console.log('abrirFecharInformacoes -> profissional ==> ', profissional, ' <> exibirInformacoes = ', profissional.exibirInformacoes);
     //console.log();
   }
 
   public profissionais = [
-    { nome: 'Dr. João da Silva', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
-    { nome: 'Dr. Manoel Bastos', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
-    { nome: 'Drª Carolina Ferreira', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
-    { nome: 'Drª Mariana Florentiana', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
-    { nome: 'Dr. Roberto Quintiliano', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
-    { nome: 'Drª Ana Paula Muniz', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh '},
+    { nome: 'Dr. João da Silva', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
+    { nome: 'Dr. Manoel Bastos', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
+    { nome: 'Drª Carolina Ferreira', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
+    { nome: 'Drª Mariana Florentiana', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
+    { nome: 'Dr. Roberto Quintiliano', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
+    { nome: 'Drª Ana Paula Muniz', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {

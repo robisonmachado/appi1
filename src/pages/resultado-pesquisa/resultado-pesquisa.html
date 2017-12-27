@@ -21,12 +21,13 @@
         Profissionais Encontrados
       </ion-list-header>
       <div *ngFor="let profissional of profissionais" >
-        <button ion-button full (click)="abrirFecharInformacoes()">{{profissional.nome}}</button>          
-        <div primary [@animacao2]='exibirInformacoes'>
+        <button ion-button full (click)="abrirFecharInformacoes(profissional)">{{profissional.nome}}</button>          
+        <div primary [@animacao]="profissional.exibirInformacoes">
           
           <div class="detalhesProfissional" >
             {{profissional.detalhes}}
           </div>
+
         </div>
       </div>
   </ion-list>
