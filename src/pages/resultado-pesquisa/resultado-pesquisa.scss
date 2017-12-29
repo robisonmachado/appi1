@@ -1,8 +1,17 @@
 page-resultado-pesquisa {
   
-    .detalhesProfissional{
+    .alert-checkbox-group *{
+        opacity: 1 !important;
+    }
+
+    .especialidade, .cidade{
+        font-weight: bold !important;
+        color: white !important;
+        font-size: 3.5vw !important;
+        padding: 3vw !important;
         
     }
+    
 
     ion-header{
         h1{
@@ -23,10 +32,6 @@ page-resultado-pesquisa {
         background-color: aquamarine;
     }
     
-
-    ion-content button{
-        font-weight: bold !important;
-    }
     
     ion-content ion-label{
         font-weight: bold !important;
@@ -45,6 +50,17 @@ page-resultado-pesquisa {
 
 
     ion-list {
+        .list-header{
+            margin-top: 4vh;
+            font-weight: bold !important;
+            font-size: 4vw !important;
+        }
+
+        button{
+            font-size: 3vw !important;
+            padding: 4vw !important;
+        }
+
         ion-item {
           background-color: transparent;
           padding-left: 0;
@@ -71,6 +87,20 @@ page-resultado-pesquisa {
             font-weight: bold;
           }
         }
+    }
+
+    ion-col img{
+        height: 100%;
+    }
+
+    ion-col p{
+        font-size: 3vw !important;
+        font-weight: bold !important;
+    }
+
+    ion-col p{
+        font-size: 3vw !important;
+        font-weight: bold !important;
     }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { trigger,state,style,query,transition,animate,keyframes, animateChild } from '@angular/animations';
 
 @IonicPage()
@@ -39,6 +39,15 @@ export class ResultadoPesquisaPage {
 
   exibirInformacoes: string = 'abrir';
   estado: boolean = false;
+  public profissionais = [
+    { nome: 'Dr. João da Silva', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+    { nome: 'Dr. Manoel Bastos', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+    { nome: 'Drª Carolina Ferreira', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+    { nome: 'Drª Mariana Florentiana', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+    { nome: 'Dr. Roberto Quintiliano', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+    { nome: 'Drª Ana Paula Muniz', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar', planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']},
+  ];
+
 
   abrirFecharInformacoes(profissional: {nome:string, detalhes: string, exibirInformacoes: string}){
     this.exibirInformacoes = (this.exibirInformacoes == 'fechar' ? 'abrir' : 'fechar');
@@ -55,16 +64,44 @@ export class ResultadoPesquisaPage {
     //console.log();
   }
 
-  public profissionais = [
-    { nome: 'Dr. João da Silva', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-    { nome: 'Dr. Manoel Bastos', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-    { nome: 'Drª Carolina Ferreira', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-    { nome: 'Drª Mariana Florentiana', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-    { nome: 'Dr. Roberto Quintiliano', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-    { nome: 'Drª Ana Paula Muniz', detalhes: 'hjdfhsdgfhsdf fsdhfgdhgf fdghgjsdfjgh ', exibirInformacoes: 'fechar'},
-  ];
+  mostrarPlanos(profissional: {nome: string, planos: string[]}){
+    let buttons: any[] = [];
+    let alert = this.alertCtrl.create({title: 'Planos', cssClass: 'alerta'});
+  
+  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    profissional.planos.forEach(plano => {
+      alert.addInput(
+        {
+          type: 'checkbox',
+          label: plano,
+          checked: true,
+          disabled: true,
+        }
+      );
+    });
+
+    alert.addButton({
+      text: 'FECHAR',
+      
+    });
+    alert.present();
+    
+
+    
+
+
+  }
+
+  
+
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public actionSheetCtrl: ActionSheetController,
+    public alertCtrl: AlertController
+  ) {
+    
   }
 
   ionViewDidLoad() {

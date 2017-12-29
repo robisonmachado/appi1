@@ -11,26 +11,40 @@
 
 <ion-content padding text-center>
 
-  <button ion-button color="dark" block >CIDADE: Marataízes</button> 
-  <button ion-button color="dark" block >ESPECIALIDADE: Cardiologista</button>
+  <button ion-button color="danger" block class="cidade">CIDADE: Marataízes</button> 
+  <button ion-button color="danger" block class="especialidade">ESPECIALIDADE: Cardiologista</button>
   
 
-
   <ion-list>
-      <ion-list-header>
-        Profissionais Encontrados
-      </ion-list-header>
-      <div *ngFor="let profissional of profissionais" >
-        <button ion-button full (click)="abrirFecharInformacoes(profissional)">{{profissional.nome}}</button>          
-        <div primary [@animacao]="profissional.exibirInformacoes">
-          
-          <div class="detalhesProfissional" >
-            {{profissional.detalhes}}
-          </div>
+    <p class="list-header">
+      PROFISSIONAIS ENCONTRADOS
+    </p>
+    <div *ngFor="let profissional of profissionais" >
+      <button ion-button full (click)="abrirFecharInformacoes(profissional)">{{profissional.nome}}</button>          
+      <ion-card primary [@animacao]="profissional.exibirInformacoes">
+          <ion-row>
+              <ion-col col-4>
+                  <img src="https://www.companhiadasletras.com.br/images/autores/01016_gg.jpg"/>
+              </ion-col>
 
-        </div>
-      </div>
-  </ion-list>
+              <ion-col col-8 text-left>
+                  <p>Endereço: Rua dos Papagaios, nº 120</p>
+                  <p>Telefone: (28) 3532-7070</p>
+                  <p>Celular: (28) 99970-7070</p>
+                  <p>Email: medico@provedordeemail.com</p>
+                  <button ion-button color=danger (click)="mostrarPlanos(profissional)">Ver Planos</button>
+                  <!-- <div class="detalhesProfissional" >
+                      {{profissional.detalhes}}
+                  </div> -->
+              </ion-col>
+             
+            </ion-row>
+        
+        
 
+      </ion-card>
+
+    </div>
+</ion-list>
 
 </ion-content>

@@ -94,12 +94,12 @@ export class SlidePage {
 
 
     // teste página de resultados
-    this.navCtrl.push(ResultadoPesquisaPage, { 
+    /* this.navCtrl.push(ResultadoPesquisaPage, { 
       cidades: this.cidades, 
       especialidades: this.especialidades,
       cidadeEscolhida: this.cidadeEscolhida
     
-    });
+    }); */
 
   }
 
