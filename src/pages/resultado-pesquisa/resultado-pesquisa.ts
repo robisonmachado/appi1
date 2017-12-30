@@ -27,7 +27,7 @@ import { trigger,state,style,query,transition,animate,keyframes, animateChild } 
 
     ]),
 
-   
+    
 
   ]
 

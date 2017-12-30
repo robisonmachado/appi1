@@ -1,6 +1,9 @@
 <ion-tabs color=danger>
-  <ion-tab [root]="tab1Root" tabTitle="Início" tabIcon="home"></ion-tab>
+  <ion-tab [root]="tab1Root" tabTitle="Início" tabIcon="home" 
+  (tap)="tabSelect($event)"></ion-tab>
+  
   <ion-tab [root]="tab2Root" tabTitle="Pesquisar" tabIcon="search"></ion-tab>
+  
   <ion-tab [root]="tab3Root" tabTitle="Contato" tabIcon="md-call"></ion-tab>
 </ion-tabs>
 

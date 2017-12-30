@@ -1,6 +1,6 @@
 import { TokenProvider } from './../../providers/token/token';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController, Slides } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { PesquisarPage } from '../pesquisar/pesquisar';
 import { ResultadoPesquisaPage } from '../resultado-pesquisa/resultado-pesquisa';
@@ -41,6 +41,8 @@ export class SlidePage {
 
   public cidadeEscolhida: string;
 
+  @ViewChild('slidesGroup') slidesGroup: Slides;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -49,8 +51,14 @@ export class SlidePage {
     public alertCtrl: AlertController
     ) {
   
-      
+    }
 
+    ionSelected() {
+      console.log("slides page foi selecionada");
+      
+    }
+    tabClick(event){
+      console.log('clique na tab');
     }
 
   ngOnInit() {
@@ -63,6 +71,11 @@ export class SlidePage {
       `
     });
 
+    // INICIA O GRUPO DE SLIDES
+    this.slidesGroup.autoplayDisableOnInteraction=false;
+  
+    console.log('slides --> ',this.slidesGroup);
+    
     
     this.loading.present().then( (retorno) => {
       console.log('loading present');
