@@ -24,14 +24,15 @@
       <ion-card primary [@animacao]="profissional.exibirInformacoes">
           <ion-row>
               <ion-col col-4>
-                  <img src="https://www.companhiadasletras.com.br/images/autores/01016_gg.jpg"/>
+                  <img [src]="profissional.foto"/>
               </ion-col>
 
               <ion-col col-8 text-left>
-                  <p>Endereço: Rua dos Papagaios, nº 120</p>
-                  <p>Telefone: (28) 3532-7070</p>
-                  <p>Celular: (28) 99970-7070</p>
-                  <p>Email: medico@provedordeemail.com</p>
+                  <p>{{ profissional.endereco }}</p>
+                  <p>Bairro: {{ profissional.bairro }}</p>
+                  <p>Telefone: {{ profissional.telefone }}</p>
+                  <p>Celular: {{ profissional.celular }}</p>
+                  <p>Email: {{ profissional.email }}</p>
                   <button ion-button color=danger (click)="mostrarPlanos(profissional)">Ver Planos</button>
                   <!-- <div class="detalhesProfissional" >
                       {{profissional.detalhes}}

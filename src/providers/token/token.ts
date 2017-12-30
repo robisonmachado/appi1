@@ -75,10 +75,11 @@ export class TokenProvider {
         .do( () => {} )
         .flatMap(
         (accessToken) => {
+
             this.headers = new Headers();
             this.headers.append('Accept', 'application/json');
             this.headers.append('Authorization', 'Bearer '+accessToken);
-
+            
             //console.log('list => headers');
             //console.log(this.headers);
             //console.log('list => accessToken');
