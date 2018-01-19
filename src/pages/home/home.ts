@@ -6,7 +6,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { TokenProvider } from '../../providers/token/token';
+import { ApiAccessProvider } from '../../providers/api-access/api-access';
+import { Cidade } from '../../providers/api-access/models/cidade.model';
+
 
 @Component({
   selector: 'page-home',
@@ -18,19 +20,19 @@ export class HomePage {
   private url: string;
   
       
-    public cidades: Observable< any[] >;
+    public cidades: Observable< Cidade[] >;
    
   constructor(
       public navCtrl: NavController, 
       private http: Http,
-      private tokenProvider: TokenProvider
+      private apiAccessProvider: ApiAccessProvider
     ) {
 
   }
 
 ngOnInit() {
     
-    this.cidades = this.tokenProvider.builder('cidade').list();
+    this.cidades = this.apiAccessProvider.obterCidades()
   
 
 }

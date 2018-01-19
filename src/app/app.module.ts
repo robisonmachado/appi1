@@ -1,3 +1,4 @@
+import { ApiAccessModule } from './../providers/api-access/api-access.module';
 import { ResultadoPesquisaPageModule } from './../pages/resultado-pesquisa/resultado-pesquisa.module';
 import { SlidePageModule } from './../pages/slide/slide.module';
 import { PesquisarPageModule } from './../pages/pesquisar/pesquisar.module';
@@ -16,12 +17,14 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { TokenProvider } from '../providers/token/token';
+
 
 import 'materialize-css';
 import { MaterializeModule } from 'angular2-materialize';
 import { ResultadoPesquisaPage } from '../pages/resultado-pesquisa/resultado-pesquisa';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -39,8 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SlidePageModule,
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     MaterializeModule,
     BrowserAnimationsModule,
+    ApiAccessModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -55,7 +60,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    TokenProvider
   ]
 })
 export class AppModule {

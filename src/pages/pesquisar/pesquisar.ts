@@ -1,9 +1,9 @@
 import { ResultadoPesquisaPage } from './../resultado-pesquisa/resultado-pesquisa';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
-import { TokenProvider } from '../../providers/token/token';
 import { Observable } from 'rxjs/Observable';
 import { concat } from 'rxjs/observable/concat';
+import { ApiAccessProvider } from '../../providers/api-access/api-access';
 
 
 
@@ -35,7 +35,7 @@ export class PesquisarPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    private tokenProvider: TokenProvider,
+    private apiAccessProvider: ApiAccessProvider,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController
   ) {
@@ -103,7 +103,7 @@ export class PesquisarPage {
     console.log(this.cidades);
     console.log(this.especialidades);
     
-    this.especialidadesObservable = this.tokenProvider.builder('especialidade').list();
+    
     
     console.log('ngOnInit: this.cidades.length');
     console.log(this.cidades);
@@ -120,7 +120,7 @@ export class PesquisarPage {
         this.especialidades=especialidades;
       } )
       .flatMap( (especialidades) => {
-        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();
+        return this.cidadesObservable = this.apiAccessProvider.obterCidades()
       });
   
       console.log('subscribing on cidades');
@@ -145,7 +145,7 @@ export class PesquisarPage {
       .flatMap( (especialidades) => {
         console.log('ngOnInit 2 >>> this.loading.dismiss()');
         this.loading.dismiss();
-        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();
+        return this.cidadesObservable = this.apiAccessProvider.obterCidades()
       });
 
       this.cidadesObservable.subscribe();
@@ -159,7 +159,7 @@ export class PesquisarPage {
       } )
       .flatMap( (especialidades) => {
         this.loading.dismiss();
-        return this.cidadesObservable = this.tokenProvider.builder('cidade').list();        
+        return this.cidadesObservable = this.apiAccessProvider.obterCidades()
       });
 
       this.cidadesObservable.subscribe();

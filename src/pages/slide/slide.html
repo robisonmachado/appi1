@@ -20,45 +20,12 @@
     </ion-item>
 
 
-        <ion-slides pager  initialSlide="0" autoplay="2000" effect="slide" paginationType="bullets" speed="1000" loop="true" autoplayDisableOnInteraction=false #slidesGroup>
-            
-            <ion-slide>
-                <img src="http://revistacomunique.com.br/site/wp-content/uploads/2016/05/Saude-do-Coracao.jpg" class="slide-image"/>
+        <ion-slides *ngIf="slides" pager  initialSlide="0" autoplay="2000" effect="slide" paginationType="bullets" speed="1000" loop="true" autoplayDisableOnInteraction=false #slidesGroup>
+               
+            <ion-slide *ngFor="let slide of slides">
+                <img [src]="slide?.url"/>
             </ion-slide>
 
-            <ion-slide>
-                <img src="http://divinews.com/wp-content/uploads/2017/08/vigilancia-saude.jpg" class="slide-image"/>
-            </ion-slide>
-
-            <ion-slide>
-                <img src="http://www.revistaapolice.com.br/wp-content/uploads/2016/08/14_-das-empresas-possuem-programas-de-gestão-em-saúde.jpg" class="slide-image"/>
-            </ion-slide>
-
-            <ion-slide>
-                <img src="http://www.saude.salvador.ba.gov.br/wp-content/uploads/2013/12/saude-para-voce-2-702x336.jpg" class="slide-image"/>
-            </ion-slide>
-
-            <ion-slide>
-                <img src="http://medicinarosario.com.br/wp-content/uploads/2016/05/plano-saude.jpg" class="slide-image"/>
-            </ion-slide>
-
-          <!--
-          <ion-slide>
-              <img src="assets/imgs/saude1.jpg" class="slide-image"/>
-              </ion-slide>
-                            
-              <ion-slide>
-                <img src="assets/imgs/saude2.jpg" class="slide-image"/>
-              </ion-slide>
-            
-              <ion-slide>
-                <img src="assets/imgs/saude3.jpg" class="slide-image"/>
-              </ion-slide>
-
-              <ion-slide>
-                <img src="assets/imgs/saude4.jpg" class="slide-image"/>
-              </ion-slide>
-            -->
         </ion-slides>
 
         
