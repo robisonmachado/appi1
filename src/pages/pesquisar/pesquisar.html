@@ -14,20 +14,20 @@
   <button ion-button 
           color="danger" 
           block 
-          (click)="fazerListaEscolha('cidades')">CIDADE</button>
+          (click)="mostrarListaEscolherCidade()">CIDADE</button>
   <ion-item>      
     <ion-label black text-center 
-        (click)="fazerListaEscolha('cidades')"> 
-          {{ cidadeEscolhida != null ? cidadeEscolhida : 'CLIQUE E ESCOLHA A CIDADE' }}
+        (click)="mostrarListaEscolherCidade()"> 
+          {{ cidadeEscolhidaNome != null ? cidadeEscolhidaNome : 'CLIQUE E ESCOLHA A CIDADE' }}
     </ion-label>
   </ion-item>
 
-  <button ion-button color="danger" block (click)="fazerListaEscolha('especialidades')">ESPECIALIDADE</button>
+  <button ion-button color="danger" block (click)="mostrarListaEscolherEspecialidade()">ESPECIALIDADE</button>
   <ion-item>      
     <ion-label black text-center 
-        (click)="fazerListaEscolha('especialidades')"> 
-          <!-- {{ especialidadeEscolhida != null ? especialidadeEscolhida : 'CLIQUE E ESCOLHA A ESPECIALIDADE' }} -->
-          {{ 'CLIQUE E ESCOLHA A ESPECIALIDADE' }}
+        (click)="mostrarListaEscolherEspecialidade()"> 
+          {{ especialidadeEscolhidaNome != null ? especialidadeEscolhidaNome : 'CLIQUE E ESCOLHA A ESPECIALIDADE' }}
+          
     </ion-label>
   </ion-item>
 
@@ -42,6 +42,5 @@
   </ion-list>
 
   
- 
 
 </ion-content>

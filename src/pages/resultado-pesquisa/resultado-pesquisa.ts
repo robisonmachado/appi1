@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController, Loading, LoadingController } from 'ionic-angular';
 import { trigger,state,style,query,transition,animate,keyframes, animateChild } from '@angular/animations';
+import { Profissional, ApiAccessProvider } from '../../providers/api-access/api-access.module';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,9 @@ import { trigger,state,style,query,transition,animate,keyframes, animateChild } 
         
       })),
 
-      transition('* => *', animate('300ms ease-in')),
+      transition('fechar => abrir', animate('300ms ease-in')),
+      transition('abrir => fechar', animate('300ms ease-out')),
+      
 
 
     ]),
@@ -35,12 +38,18 @@ import { trigger,state,style,query,transition,animate,keyframes, animateChild } 
 
 export class ResultadoPesquisaPage {
 
+  cidadeEscolhidaId: number
+  cidadeEscolhidaNome: string
+  especialidadeEscolhidaId: number
+  especialidadeEscolhidaNome: string
+
+  loading: Loading
   ultimaInformacaoExibibida: {exibirInformacoes: string}[]=[];
 
   //exibirInformacoes: string = 'abrir';
-  estado: boolean = false;
-  public profissionais = [
-    { 
+  estado = false
+  profissionais: Profissional[]
+/*     { 
       nome: 'Dr. João da Silva',
       foto: 'https://www.companhiadasletras.com.br/images/autores/01016_gg.jpg',
       bairro: 'Cidade Nova',
@@ -50,69 +59,38 @@ export class ResultadoPesquisaPage {
       email: 'joaodasilva@provedordeemail.com',
       exibirInformacoes: 'fechar', 
       planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']
-    },
-    
-    { 
-      nome: 'Dr. Manoel Bastos',
-      foto: 'http://4.bp.blogspot.com/-E1IkQz2PR8E/VS0PQ5TxQhI/AAAAAAAAAUM/N7cPlv1Ghs8/s1600/Doutor%2BMédico%2BPatrício%2BTeixeira%2BLeite.jpg',
-      bairro: 'Belo Horizonte II',
-      endereco: 'Rua das Andorinhas Azuis, nº 11421',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'manoelbastos@provedordeemail.com', 
-      exibirInformacoes: 'fechar', 
-      planos: ['SAAE', 'UNIMED', 'LUZ ETERNA', 'SAMP']
-    },
+    } */
 
-    { 
-      nome: 'Drª Carolina Ferreira',
-      foto: 'http://e.glbimg.com/og/ed/f/original/2011/08/04/eliane_brum.jpg',
-      bairro: 'Aeroporto',
-      endereco: 'Rua Projeta A, quadra C, nº 3',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'ferreiracarolina@provedordeemail.com',
-      exibirInformacoes: 'fechar', 
-      planos: ['UNIMED']
-    },
+  constructor(
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      public actionSheetCtrl: ActionSheetController,
+      public loadingCtrl: LoadingController,
+      public alertCtrl: AlertController,
+      private apiAccessProvider: ApiAccessProvider
+    ) {
+      
+      console.log('resultadoPesquisaPage => parâmetros encontrados ---> ', this.navParams.data)
+      this.cidadeEscolhidaId=this.navParams.get('cidadeEscolhidaId')
+      this.cidadeEscolhidaNome=this.navParams.get('cidadeEscolhidaNome')
+      this.especialidadeEscolhidaId=this.navParams.get('especialidadeEscolhidaId')
+      this.especialidadeEscolhidaNome=this.navParams.get('especialidadeEscolhidaNome')
 
-    { 
-      nome: 'Drª Mariana Florentiana',
-      foto: 'http://marcelolopes.jor.br/upload/noticias/20160321224601_205.jpg',
-      bairro: 'Pedra Azul',
-      endereco: 'Rua Florisbela, nº 65',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'drmarianaflor@provedordeemail.com',
-      exibirInformacoes: 'fechar', 
-      planos: ['UNIMED', 'SAMP']
-    },
+      this.loading = this.loadingCtrl.create({
+        content: 'ES Saúde está buscando os especialistas para você...'
+      })
+  
+      this.loading.present()
 
-    { 
-      nome: 'Dr. Roberto Quintiliano',
-      foto: 'https://midias.gazetaonline.com.br/_midias/jpg/2017/08/02/doutor_ze_carlos-5222929.jpg',
-      bairro: 'Ponte Nova',
-      endereco: 'Av. Rio de Janeiro, nº 762',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'quintilianorobert@provedordeemail.com',
-      exibirInformacoes: 'fechar', 
-      planos: ['UNIMED']
-    },
+      this.apiAccessProvider.obterEspecialistasPorCidade(this.cidadeEscolhidaId, this.especialidadeEscolhidaId)
+        .subscribe(
+          profissionais => {
+            this.profissionais=profissionais
+            this.loading.dismiss()
+          }
+        )
 
-    { 
-      nome: 'Drª Ana Paula Muniz', 
-      foto: 'http://3.bp.blogspot.com/-nmORN42u9UM/VcEEX2YPN3I/AAAAAAAAkVo/o5m-kKvU9Fw/s1600/ORESUMODAMODA%2B-%2BBELEZA%2B-%2BM%25C3%25A9dica%2Bdermatologista%2Btraz%2Bpara%2Bo%2BBrasil%2Bnovidade%2Bpara%2Ba%2Bredu%25C3%25A7%25C3%25A3o%2Bde%2Bgordura.tiff',
-      bairro: 'Paraíso',
-      endereco: 'Av. Primavera do Sul, nº 1120',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'anamuniz@provedordeemail.com', 
-      exibirInformacoes: 'fechar', 
-      planos: ['SAAE', 'UNIMED']
-    },
-
-  ];
+    }
 
 
   abrirFecharInformacoes(profissional: {nome:string, detalhes: string, exibirInformacoes: string}){
@@ -139,6 +117,7 @@ export class ResultadoPesquisaPage {
 
   }
 
+  // corrigir para funcionar de acordo com a api
   mostrarPlanos(profissional: {nome: string, planos: string[]}){
     let buttons: any[] = [];
     let alert = this.alertCtrl.create({title: 'Planos', cssClass: 'alerta'});
@@ -167,14 +146,10 @@ export class ResultadoPesquisaPage {
 
   }
 
-  
+  ngOnInit() {
+   
 
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController
-  ) {
+    
     
   }
 

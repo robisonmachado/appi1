@@ -24,6 +24,6 @@ export class ApiAccessModule {
 
  }
 
- export {Cidade, CidadeApiData, Especialidade, Profissional,Token, Slide}
+ export {Cidade, CidadeApiData, Especialidade, Profissional,Token, Slide, ApiAccessProvider}
 
 

@@ -15,12 +15,12 @@ import { ApiAccessProvider } from '../../providers/api-access/api-access';
 })
 export class SlidePage {
 
-  public loading: Loading;
-  public loadingAtivo: boolean = false;
+  loading: Loading;
+  loadingAtivo = false;
 
-  public slides: Slide[];
-  public cidades: Cidade[];
-  public especialidades: Especialidade[];
+  slides: Slide[];
+  cidades: Cidade[];
+  especialidades: Especialidade[];
 
   selectOptions = {
     title: 'LISTA DE CIDADES',
@@ -28,9 +28,9 @@ export class SlidePage {
     mode: 'md'
   };
 
-  public cidadesObservable: Observable<any[]>;
-
-  public cidadeEscolhida: string;
+  
+  cidadeEscolhidaNome: string;
+  cidadeEscolhidaId: number;
 
   @ViewChild('slidesGroup') slidesGroup: Slides;
 
@@ -54,32 +54,59 @@ export class SlidePage {
     }
 
     getSlides(){
-      this.apiAccessProvider.obterSlides()
-        .subscribe(slides => {
-          console.log('getSlides => ', slides)
-          this.slides = slides
-          //this.slidesGroup.autoplayDisableOnInteraction=false
-        })
+      if(this.apiAccessProvider.slidesObtidos){
+        this.slides = this.apiAccessProvider.slides
+      }else{
+        this.apiAccessProvider.slidesObtidosEvent.subscribe(
+          (evento: {slidesObtidos: Slide[]}) => {
+            this.slides = evento.slidesObtidos
+          }
+        )
+      }
     }
 
 
   desativarLoading(){
-    this.loading.dismiss().then( (retorno) => {
-      console.log('SlidePage.desativarLoading => desabilitando loading...')
-      this.loadingAtivo=false;
-    });
+    if(this.cidades !== undefined && this.especialidades !== undefined){
+      this.loading.dismiss().then( (retorno) => {
+        console.log('SlidePage.desativarLoading => desabilitando loading...')
+        this.loadingAtivo=false;
+      })
+    }
+    
   }
 
   getCidades(){
-    this.apiAccessProvider.obterCidades()
-      .subscribe(cidades => {
-        console.log('SlidePage.getCidades => cidades obtidas --> ', cidades);
-        this.cidades = cidades;
-        this.desativarLoading()
-      })
-}
+    if(this.apiAccessProvider.cidadesObtidas){
+      this.cidades = this.apiAccessProvider.cidades
+    }else{
+      this.apiAccessProvider.cidadesObtidasEvent.subscribe(
+        (evento: {cidadesObtidas: Cidade[]}) => {
+          this.cidades=evento.cidadesObtidas
+          this.desativarLoading()
+        }
+      )
+    }
+  }
+
+  getEspecialidades(){
+    if(this.apiAccessProvider.especialidadesObtidas){
+      this.especialidades = this.apiAccessProvider.especialidades
+    }else{
+      this.apiAccessProvider.especialidadesObtidasEvent.subscribe(
+        (evento: {especialidadesObtidas: Especialidade[]}) => {
+          this.especialidades = evento.especialidadesObtidas
+          this.desativarLoading()
+        }
+      )
+    }
+  }
+
 
   ngOnInit() {
+
+    console.log('ngOnInit ==> cidades: ', this.cidades, ' <> especialidades: ', this.especialidades)
+
     this.loading = this.loadingCtrl.create({
       content: `
       <div text-center>
@@ -98,71 +125,52 @@ export class SlidePage {
       console.log('Slide Page --> token não obtido, se inscrevendo no evento tokenObtidoEvent')
       this.apiAccessProvider.tokenObtidoEvent.subscribe(
         tokenObtido => {
-          this.getCidades()
           this.getSlides()
+          this.getCidades()
+          this.getEspecialidades()
+          
         }
       )
 
       return
+    }else{
+      this.getSlides()
+      this.getCidades()
+      this.getEspecialidades()
     }
     // INICIA O GRUPO DE SLIDES
     this.slidesGroup.autoplayDisableOnInteraction=false;
- /* 
-    console.log('slides --> ',this.slidesGroup);
-    
-    this.getSlides();
-    //this.getEspecialidades();
-    this.getCidades();
-
-    */
-
  
-   
-
-
   }
 
 
-  fazerListaEscolha(tipoLista: string) {
+  mostrarListaEscolherCidade() {
     let alert = this.alertCtrl.create();
-
     alert.addButton({text: 'Cancelar'});
+    alert.setTitle('Escolha a cidade');
+    for (let cidade of this.cidades) {
+      alert.addInput({
+        type: 'radio',
+        label: cidade.nome,
+        value: `${cidade.id}`
+      });
+    }
 
-    if('cidades' == tipoLista){
-    
-        alert.setTitle('Escolha a cidade');
-
-
-        for (let cidade of this.cidades) {
-          alert.addInput({
-            type: 'radio',
-            label: cidade.nome,
-            value: cidade.nome
-          });
-
-        }
-
-        alert.addButton({
-          text: 'Ok',
-          handler: (data: any) => {
-              console.log('Checkbox data:', data);
-              //this.cidadeEscolhida = data;
-              //this.navCtrl.push(PesquisarPage, { cidades: this.cidades});
-              this.navCtrl.push(PesquisarPage, { 
-                cidades: this.cidades, 
-                especialidades: this.especialidades,
-                //cidadeEscolhida: this.cidadeEscolhida
-                cidadeEscolhida: data
-              
-              });
+    alert.addButton({
+      text: 'Ok',
+      handler: (cidadeId: any) => {
+        console.log('Checkbox data:', cidadeId);
+        this.navCtrl.push(PesquisarPage, { 
+        cidades: this.cidades, 
+        especialidades: this.especialidades,
+        cidadeEscolhidaId: cidadeId
+      });
             
-          }
-        });
+    }
+  });
 
-      }
-      
-    
-      alert.present();
+
+  alert.present();
 
   }
 

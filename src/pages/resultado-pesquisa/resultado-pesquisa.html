@@ -11,8 +11,8 @@
 
 <ion-content padding text-center>
 
-  <button ion-button color="danger" block class="cidade">CIDADE: Marataízes</button> 
-  <button ion-button color="danger" block class="especialidade">ESPECIALIDADE: Cardiologista</button>
+  <button ion-button color="danger" block class="cidade">CIDADE: {{ cidadeEscolhidaNome }}</button> 
+  <button ion-button color="danger" block class="especialidade">ESPECIALIDADE: {{ especialidadeEscolhidaNome }}</button>
   
 
   <ion-list>
@@ -28,10 +28,10 @@
               </ion-col>
 
               <ion-col col-8 text-left>
-                  <p>{{ profissional.endereco }}</p>
+                  <p>Endereço: {{ profissional.endereco }}</p>
                   <p>Bairro: {{ profissional.bairro }}</p>
-                  <p>Telefone: {{ profissional.telefone }}</p>
-                  <p>Celular: {{ profissional.celular }}</p>
+                  <p>Telefone: {{ profissional.telefone1 }}</p>
+                  <p>Celular: {{ profissional.telefone2 }}</p>
                   <p>Email: {{ profissional.email }}</p>
                   <button ion-button color=danger (click)="mostrarPlanos(profissional)">Ver Planos</button>
                   <!-- <div class="detalhesProfissional" >

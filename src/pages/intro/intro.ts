@@ -2,15 +2,10 @@ import { SlidePage } from './../slide/slide';
 import { ContatoPage } from './../contato/contato';
 import { PesquisarPage } from './../pesquisar/pesquisar';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import {Tabs} from "ionic-angular"
 
-/**
- * Generated class for the IntroPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -23,10 +18,10 @@ export class IntroPage {
     tab2Root = PesquisarPage;
     tab3Root = ContatoPage;
 
-    @ViewChild(Nav) nav: Nav;
+    @ViewChild("introTabs") introTabs: Tabs;
     
     constructor(public navCtrl: NavController, public navParams: NavParams) {
-      //this.navCtrl.setRoot(ContatoPage);
+      
     }
 
     irParaTabsPage(){
@@ -35,6 +30,18 @@ export class IntroPage {
 
     tabSelect(event){
       console.log('selecionou a tab');
+    }
+
+    ngAfterViewInit() {
+      //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+      //Add 'implements AfterViewInit' to the class.
+      this.introTabs.select(1)
+      
+    }
+
+    ngOnInit() {
+      
+      
     }
 
 }

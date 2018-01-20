@@ -19,14 +19,16 @@ export class ApiAccessProvider {
   especialidades: Especialidade[]
   slides: Slide[]
 
-  iniciandoBuscaToken: boolean = false
-  tokenObtido: boolean = false
-  cidadesObtidas: boolean = false
+  iniciandoBuscaToken =  false
+  tokenObtido = false
+  cidadesObtidas = false
+  especialidadesObtidas = false
+  slidesObtidos = false
 
   @Output() tokenObtidoEvent: EventEmitter<{tokenObtido: boolean}> = new EventEmitter()
   @Output() cidadesObtidasEvent: EventEmitter<{cidadesObtidas: Cidade[]}> = new EventEmitter()
-  @Output() especialidadesObtidasEvent: EventEmitter<{cidadesObtidas: Cidade[]}> = new EventEmitter()
-
+  @Output() especialidadesObtidasEvent: EventEmitter<{especialidadesObtidas: Especialidade[]}> = new EventEmitter()
+  @Output() slidesObtidosEvent: EventEmitter<{slidesObtidos: Slide[]}> = new EventEmitter()
 
   constructor(
     private httpClient: HttpClient
@@ -34,13 +36,11 @@ export class ApiAccessProvider {
     this.tokenObtidoEvent.subscribe(
       (evento: {tokenObtido: boolean}) => {
         this.tokenObtido = evento.tokenObtido
-        this.obterCidades().subscribe(
-          cidades => {
-            this.cidadesObtidas=true
-            this.cidades=cidades
-            this.cidadesObtidasEvent.emit({cidadesObtidas: cidades})
-          }
-        )
+        
+        this.obterCidades().subscribe()
+        this.obterEspecialidades().subscribe()
+        this.obterSlides().subscribe()
+
       }
     )
 
@@ -142,6 +142,9 @@ export class ApiAccessProvider {
             .switchMap(
               cidades => {
                 console.log('obterCidades() => cidades obtidas com sucesso ---> ', cidades)
+                this.cidades=cidades
+                this.cidadesObtidas=true
+                this.cidadesObtidasEvent.emit({cidadesObtidas: cidades})
                 return Observable.of(cidades)}
             )
             
@@ -190,13 +193,16 @@ export class ApiAccessProvider {
 
 
     
-    return this.httpClient.get<Especialidade[]>(
-        `${URL_API+'/especialidades'}`, 
+    return this.httpClient.get<{data: Especialidade[]}>(
+        `${URL_API+'/especialidade'}`, 
         {headers: httpHeaders})
             .switchMap(
-              especialidades => {
-                console.log('obterEspecialidades => ',especialidades)
-                return Observable.of(especialidades)
+              (especialidadesObtidas) => {
+                console.log('obterEspecialidades => especialidades obtidas com sucesso! ---> ',especialidadesObtidas.data)
+                this.especialidades = especialidadesObtidas.data
+                this.especialidadesObtidas=true
+                this.especialidadesObtidasEvent.emit({especialidadesObtidas: especialidadesObtidas.data})
+                return Observable.of(especialidadesObtidas.data)
               }
             )       
 
@@ -277,12 +283,52 @@ export class ApiAccessProvider {
             .switchMap(
               slides => {
                 console.log('obterSlides => map --> ',slides.data)
+                this.slides = slides.data
+                this.slidesObtidos=true
+                this.slidesObtidosEvent.emit({slidesObtidos: slides.data})
                 return Observable.of(slides.data)
               }
             )       
 
   }
 
+  obterCidadePeloId(cidadeId: number): Cidade{
+    let cidadeEncontrada: Cidade
+
+    console.log('ApiAccess => obterCidadePeloId executando...')
+    this.cidades.forEach(
+      cidade => {
+        console.log('ApiAccess => obterCidadePeloId dentro do loop... procurando id='+cidadeId+' na cidade --> ', cidade)
+        if(cidade.id == cidadeId){
+          console.log('ApiAccess => obterCidadePeloId => cidade encontrada --> ', cidade)
+          cidadeEncontrada=cidade
+          return
+        }
+      }
+    )
+
+    return cidadeEncontrada
+
+  }
+
+  obterEspecialidadePeloId(especialidadeId: number): Especialidade{
+    let especialidadeEncontrada: Especialidade
+
+    console.log('ApiAccess => obterEspecialidadePeloId executando...')
+    this.especialidades.forEach(
+      especialidade => {
+        console.log('ApiAccess => obterEspecialidadePeloId dentro do loop... procurando id='+especialidadeId+' na cidade --> ', especialidade)
+        if(especialidade.id == especialidadeId){
+          console.log('ApiAccess => obterEspecialidadePeloId => especialidade encontrada --> ', especialidade)
+          especialidadeEncontrada=especialidade
+          return
+        }
+      }
+    )
+
+    return especialidadeEncontrada
+
+  }
 
 
 
