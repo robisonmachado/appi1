@@ -2,7 +2,8 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Cidade, CidadeApiData, Especialidade, Profissional,Token, Slide } from './api-access.module'
+import { Cidade, CidadeApiData, Especialidade, Profissional, Plano,Token, Slide } from './api-access.module'
+
 
 
 const URL_API_TOKEN = 'http://localhost:8000/oauth/token'
@@ -221,10 +222,24 @@ export class ApiAccessProvider {
     });
 
 
-    
-    return this.httpClient.get<Especialidade[]>(
+    return this.httpClient.get<Profissional[]>(
         `${URL_API+'/cidade/'+cidade_id+'/especialidade/'+especialidade_id}`, 
         {headers: httpHeaders})
+            .do(
+              profissionais => {
+                profissionais.forEach(
+                  profissional => {
+                    this.obterPlanosPorProfissionalId(profissional.id)
+                      .subscribe(
+                          planos => {
+                            console.log('obterEspecialistasPorCidade => obtido planos do profissional')
+                            profissional.planos=planos
+                          } 
+                      )
+                  }
+                )
+              }
+            )
             .switchMap(
               especialistas => {
                 console.log('obterEspecialistasPorCidade --> ',especialistas)
@@ -250,9 +265,24 @@ export class ApiAccessProvider {
     console.log('obterProfissionais => antes do forEach = ', cidade)
 
     
-    return this.httpClient.get<Especialidade[]>(
+    return this.httpClient.get<Profissional[]>(
         `${URL_API+'/cidade/'+cidade.id+'/profissionais'}`, 
         {headers: httpHeaders})
+            .do(
+              profissionais => {
+                profissionais.forEach(
+                  profissional => {
+                    this.obterPlanosPorProfissionalId(profissional.id)
+                      .subscribe(
+                          planos => {
+                            console.log('obterProfissionais => obtido planos do profissional')
+                            profissional.planos=planos
+                          } 
+                      )
+                  }
+                )
+              }
+            )
             .switchMap(
               profissionais => {
                 console.log('obterProfissionais => map --> ',profissionais)
@@ -261,6 +291,33 @@ export class ApiAccessProvider {
             )       
 
   }
+
+
+  obterPlanosPorProfissionalId(profissional_id: number): Observable<Plano[]>{
+    let Authorization = this.getAuthorization()
+
+    console.log('obterPlanosPorProfissionalId => executando...')
+
+    let httpHeaders: HttpHeaders =  new HttpHeaders({
+      'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type, Accept',        
+      'Accept' : 'application/json',
+      'Access-Control-Allow-Origin' : '*',
+      'Authorization' : `${Authorization}`
+    });
+
+    
+    return this.httpClient.get<Plano[]>(
+        `${URL_API+'/profissional/'+profissional_id+'/planos'}`, 
+        {headers: httpHeaders})
+            .switchMap(
+              planos => {
+                console.log('obterPlanosPorProfissionalId ---> ',planos)
+                return Observable.of(planos)
+              }
+            )       
+
+  }
+
 
   obterSlides(): Observable<Slide[]>{
     let Authorization = this.getAuthorization()

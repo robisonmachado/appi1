@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, AlertController, Loading, LoadingController } from 'ionic-angular';
-import { trigger,state,style,query,transition,animate,keyframes, animateChild } from '@angular/animations';
-import { Profissional, ApiAccessProvider } from '../../providers/api-access/api-access.module';
+import { trigger,state,style,query,transition,animate,keyframes, animateChild, stagger } from '@angular/animations';
+import { Profissional, Plano, ApiAccessProvider } from '../../providers/api-access/api-access.module';
+
+
+
+class ProfissionalUI extends Profissional{
+  exibirInformacoes='fechar'
+}
 
 @IonicPage()
 @Component({
@@ -14,7 +20,7 @@ import { Profissional, ApiAccessProvider } from '../../providers/api-access/api-
 
       state('fechar', style({
           opacity:0,
-          transform: 'translateY(-100%)',
+          //transform: 'translateX(-100%)',
           display: 'none'        
       })),
 
@@ -23,8 +29,28 @@ import { Profissional, ApiAccessProvider } from '../../providers/api-access/api-
         
       })),
 
-      transition('fechar => abrir', animate('300ms ease-in')),
-      transition('abrir => fechar', animate('300ms ease-out')),
+     
+
+      //transition('fechar => abrir', animate('300ms ease-in')),
+      
+      transition('fechar => abrir', animate('0.5s 300ms',keyframes([
+        style({opacity: 0, transform: 'translateX(-100%)', offset: 0}),
+        style({opacity: 0.7, transform: 'translateX(10%)',  offset: 0.8}),
+        style({opacity: 1, transform: 'translateX(0)',     offset: 1.0})
+        
+        ])
+      )),
+
+      //transition('abrir => fechar', animate('300ms ease-out')),
+      transition('abrir => fechar', animate('0.4s', keyframes([
+        style({opacity: 1, transform: 'translateX(0)', offset: 0}),
+        style({opacity: 0.7, transform: 'translateX(-20%)',offset: 0.3}),
+        style({opacity: 0, transform: 'translateX(100%)',  offset: 1})
+        
+        
+        ])
+      )),
+      
       
 
 
@@ -46,20 +72,9 @@ export class ResultadoPesquisaPage {
   loading: Loading
   ultimaInformacaoExibibida: {exibirInformacoes: string}[]=[];
 
-  //exibirInformacoes: string = 'abrir';
   estado = false
-  profissionais: Profissional[]
-/*     { 
-      nome: 'Dr. João da Silva',
-      foto: 'https://www.companhiadasletras.com.br/images/autores/01016_gg.jpg',
-      bairro: 'Cidade Nova',
-      endereco: 'Rua dos Papagaios Amarelos, nº 120',
-      telefone: '(28) 3532-7070',
-      celular: '(28) 99970-7070',
-      email: 'joaodasilva@provedordeemail.com',
-      exibirInformacoes: 'fechar', 
-      planos: ['SAAE', 'UNIMED', 'LUZ ETERNA']
-    } */
+  profissionais: ProfissionalUI[] = []
+
 
   constructor(
       public navCtrl: NavController, 
@@ -85,7 +100,15 @@ export class ResultadoPesquisaPage {
       this.apiAccessProvider.obterEspecialistasPorCidade(this.cidadeEscolhidaId, this.especialidadeEscolhidaId)
         .subscribe(
           profissionais => {
-            this.profissionais=profissionais
+            profissionais.forEach(
+              profissional => {
+                let profUI: ProfissionalUI
+
+                profUI=profissional as ProfissionalUI 
+                profUI.exibirInformacoes='fechar'              
+                this.profissionais.push(profUI)
+              }
+            )
             this.loading.dismiss()
           }
         )
@@ -93,10 +116,10 @@ export class ResultadoPesquisaPage {
     }
 
 
-  abrirFecharInformacoes(profissional: {nome:string, detalhes: string, exibirInformacoes: string}){
+  abrirFecharInformacoes(profissional: ProfissionalUI){
     
     let exibirInformacoes:string = profissional.exibirInformacoes;
-    console.log('exibir informações antes => ', exibirInformacoes);    
+    console.log('abrirFecharInformacoes => valor antes => ', exibirInformacoes);    
     
     exibirInformacoes = (exibirInformacoes === 'abrir' ? 'fechar' : 'abrir'); 
     
@@ -118,17 +141,26 @@ export class ResultadoPesquisaPage {
   }
 
   // corrigir para funcionar de acordo com a api
-  mostrarPlanos(profissional: {nome: string, planos: string[]}){
+  mostrarPlanos(profissional: {nome: string, planos: Plano[]}){
     let buttons: any[] = [];
     let alert = this.alertCtrl.create({title: 'Planos', cssClass: 'alerta'});
   
   
+    if(profissional.planos.length==0){
+      alert.addInput(
+        {
+          type: 'checkbox',
+          label: 'sem planos',
+          checked: true,
+        }
+      );
+    }
 
     profissional.planos.forEach(plano => {
       alert.addInput(
         {
           type: 'checkbox',
-          label: plano,
+          label: plano.nome,
           checked: true,
         }
       );
@@ -147,14 +179,10 @@ export class ResultadoPesquisaPage {
   }
 
   ngOnInit() {
-   
-
-    
+      
     
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ResultadoPesquisaPage');
-  }
+
 
 }

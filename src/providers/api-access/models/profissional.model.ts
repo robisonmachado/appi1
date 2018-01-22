@@ -1,3 +1,5 @@
+import { Plano } from "../api-access.module";
+
 class Profissional{
     id: number
     nome: string
@@ -6,6 +8,7 @@ class Profissional{
     telefone2: string
     whatsapp: string
     foto: string
+    planos: Plano[]
   }
 
 export {Profissional}
