@@ -63,24 +63,36 @@ export class PesquisarPage {
     if(navParams.get('cidades')){
       this.cidades=navParams.get('cidades')
     }else{
-      console.log('cidades da api --> ', this.apiAccessProvider.cidades)
-      this.apiAccessProvider.cidadesObtidasEvent.subscribe(
-        (evento: {cidadesObtidas: Cidade[]}) => {
-          this.cidades=evento.cidadesObtidas
-          console.log('PesquisarPage => evento cidadesObtidas ---> ', this.cidades)
-        }
-      )
+      console.log('cidades da api forão obtidas --> ', this.apiAccessProvider.cidadesObtidas)
+      if(this.apiAccessProvider.cidadesObtidas){
+        this.cidades=this.apiAccessProvider.cidades
+      }else{
+        console.log('cidades da api --> ', this.apiAccessProvider.cidades)
+        this.apiAccessProvider.cidadesObtidasEvent.subscribe(
+          (evento: {cidadesObtidas: Cidade[]}) => {
+            this.cidades=evento.cidadesObtidas
+            console.log('PesquisarPage => evento cidadesObtidas ---> ', this.cidades)
+          }
+        )
+      }
+      
     }
 
     if(navParams.get('especialidades')){
       this.especialidades=navParams.get('especialidades')
     }else{
-      this.apiAccessProvider.especialidadesObtidasEvent.subscribe(
-        (evento: {especialidadesObtidas: Especialidade[]}) => {
-          this.especialidades=evento.especialidadesObtidas
-          console.log('PesquisarPage => evento especialidadesObtidas ---> ', this.especialidades)
-        }
-      )
+      console.log('especialidades da api forão obtidas --> ', this.apiAccessProvider.especialidadesObtidas)
+      if(this.apiAccessProvider.especialidadesObtidas){
+        this.especialidades=this.apiAccessProvider.especialidades
+      }else{
+        this.apiAccessProvider.especialidadesObtidasEvent.subscribe(
+          (evento: {especialidadesObtidas: Especialidade[]}) => {
+            this.especialidades=evento.especialidadesObtidas
+            console.log('PesquisarPage => evento especialidadesObtidas ---> ', this.especialidades)
+          }
+        )
+      }
+      
     }
     
     if(navParams.get('cidadeEscolhidaId')){

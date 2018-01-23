@@ -19,6 +19,19 @@ export class SlidePage {
   loadingAtivo = false;
 
   slides: Slide[];
+
+  slidesOptions = {
+    initialSlide: 0,
+    loop: true,
+    autoplay: 2000,
+    effect: 'slide',
+    paginationType: 'bullets',
+    autoplayDisableOnInteraction: false,
+    speed: 1000,
+    pager: true
+   
+  }
+
   cidades: Cidade[];
   especialidades: Especialidade[];
 
@@ -60,6 +73,8 @@ export class SlidePage {
         this.apiAccessProvider.slidesObtidosEvent.subscribe(
           (evento: {slidesObtidos: Slide[]}) => {
             this.slides = evento.slidesObtidos
+            
+            //this.slidesGroup.autoplayDisableOnInteraction=false;
           }
         )
       }
@@ -138,8 +153,7 @@ export class SlidePage {
       this.getCidades()
       this.getEspecialidades()
     }
-    // INICIA O GRUPO DE SLIDES
-    this.slidesGroup.autoplayDisableOnInteraction=false;
+    
  
   }
 
