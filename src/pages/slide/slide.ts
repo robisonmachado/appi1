@@ -20,18 +20,6 @@ export class SlidePage {
 
   slides: Slide[];
 
-  slidesOptions = {
-    initialSlide: 0,
-    loop: true,
-    autoplay: 2000,
-    effect: 'slide',
-    paginationType: 'bullets',
-    autoplayDisableOnInteraction: false,
-    speed: 1000,
-    pager: true
-   
-  }
-
   cidades: Cidade[];
   especialidades: Especialidade[];
 
@@ -73,8 +61,6 @@ export class SlidePage {
         this.apiAccessProvider.slidesObtidosEvent.subscribe(
           (evento: {slidesObtidos: Slide[]}) => {
             this.slides = evento.slidesObtidos
-            
-            //this.slidesGroup.autoplayDisableOnInteraction=false;
           }
         )
       }
@@ -187,6 +173,21 @@ export class SlidePage {
   alert.present();
 
   }
+
+
+  ionSlideAutoplayStop() {
+    console.log('SlidesPage.ionSlideAutoplayStop() ---> evento de stop do autoplay dos slides')
+    /* if (this.slides !== undefined) {
+      this.slidesGroup.startAutoplay();
+    } */
+    Observable.timer(6000).subscribe(
+      tempo => {
+        console.log('SlidesPage.ionSlideAutoplayStop() ---> reiniciando autoplay dos slides')
+        this.slidesGroup.startAutoplay()
+      }
+    )
+}
+
 
 }
 

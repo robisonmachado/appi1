@@ -28,9 +28,7 @@ export class IntroPage {
       this.navCtrl.push(TabsPage);
     }
 
-    tabSelect(event){
-      console.log('selecionou a tab');
-    }
+   
 
     ngAfterViewInit() {
       //this.introTabs.select(1)      

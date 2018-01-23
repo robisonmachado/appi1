@@ -19,10 +19,12 @@
       </ion-label>
     </ion-item>
 
-<!-- 
-        <ion-slides *ngIf="slides" pager  initialSlide="0" autoplay="2000" effect="slide" paginationType="bullets" speed="1000" loop="true" autoplayDisableOnInteraction="false" #slidesGroup>
-         -->
-          <ion-slides *ngIf="slides" [pager]=true  #slidesGroup>
+
+       
+
+          <ion-slides *ngIf="slides" [pager]=true [autoplay]=2000 [loop]=true [speed]=1000 #slidesGroup
+          (ionSlideAutoplayStop)="ionSlideAutoplayStop()">
+
             <ion-slide *ngFor="let slide of slides">
                 <img [src]="slide?.url"/>
             </ion-slide>
