@@ -6,10 +6,10 @@ import { Cidade, CidadeApiData, Especialidade, Profissional, Plano,Token, Slide 
 
 
 
-const URL_API_TOKEN = 'http://localhost:8000/oauth/token'
-const URL_API = 'http://localhost:8000/api'
+const URL_API_TOKEN = 'http://essaude.unicorpconsultoria.com/oauth/token'
+const URL_API = 'http://essaude.unicorpconsultoria.com/api'
 const CLIENT_ID = 3
-const CLIENT_SECRET = 'gBS5uTT4IFpfjsEAvMuPpWVLexgGbgS0zz6wBHW8'
+const CLIENT_SECRET = 'rwN7lA99P9UjnKP0ZLVjrVub2Emu10gCUp2NCCJF'
 
 
 @Injectable()
