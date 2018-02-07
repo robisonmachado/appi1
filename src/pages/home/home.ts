@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+/* import { 
+  Http, 
+  Response, 
+  Headers, 
+  RequestOptions 
+} from '@angular/http'; */
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
@@ -16,15 +21,12 @@ import { Cidade } from '../../providers/api-access/models/cidade.model';
 })
 export class HomePage {
 
- 
-  private url: string;
-  
       
     public cidades: Observable< Cidade[] >;
    
   constructor(
       public navCtrl: NavController, 
-      private http: Http,
+      //private http: Http,
       private apiAccessProvider: ApiAccessProvider
     ) {
 

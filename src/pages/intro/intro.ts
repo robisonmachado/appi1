@@ -28,8 +28,7 @@ export class IntroPage {
       this.navCtrl.push(TabsPage);
     }
 
-   
-
+  
     ngAfterViewInit() {
       //this.introTabs.select(1)      
     }
