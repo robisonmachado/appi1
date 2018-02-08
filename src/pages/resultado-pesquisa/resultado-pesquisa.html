@@ -15,7 +15,7 @@
   <button ion-button color="danger" block class="especialidade">ESPECIALIDADE: {{ especialidadeEscolhidaNome }}</button>
   
 
-  <ion-list *ngIf="profissionais?.length > 0 ; else nenhumProfissionalEncontrado">
+  <ion-list *ngIf="profissionais?.length > 0">
     <p class="list-header">
       PROFISSIONAIS ENCONTRADOS
     </p>
@@ -46,12 +46,12 @@
     </div>
 </ion-list>
 
-<ng-template #nenhumProfissionalEncontrado>
+<div #nenhumProfissionalEncontrado *ngIf="profissionais?.length == 0 && loadingDidDismiss">
   <h2>
     Aguarde: <span>{{ especialidadeEscolhidaNome | uppercase }}S</span> 
     da cidade de <span>{{ cidadeEscolhidaNome | uppercase }}</span>
     estão sendo cadastrados no sistema, tente novamente nos próximos dias!
   </h2>
-</ng-template>
+</div>
 
 </ion-content>

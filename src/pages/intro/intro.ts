@@ -1,9 +1,9 @@
+import { ApiAccessProvider } from './../../providers/api-access/api-access';
 import { SlidePage } from './../slide/slide';
 import { ContatoPage } from './../contato/contato';
 import { PesquisarPage } from './../pesquisar/pesquisar';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs';
+import { IonicPage, NavController, NavParams, Tab } from 'ionic-angular';
 import {Tabs} from "ionic-angular"
 
 
@@ -18,23 +18,52 @@ export class IntroPage {
     tab2Root = PesquisarPage;
     tab3Root = ContatoPage;
 
+    introPageIniciada = false
+
     @ViewChild("introTabs") introTabs: Tabs;
     
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      private apiAccessProvider: ApiAccessProvider
+    ) {
       
     }
 
-    irParaTabsPage(){
-      this.navCtrl.push(TabsPage);
+ 
+  
+
+
+    slidePageSelected(event: Tab){
+      console.log('slidePageSelected ---> introPage iniciada ==> ', this.introPageIniciada)
+
+      if(this.introPageIniciada){
+        console.log('rootPage ==> ', event.root)
+        event.goToRoot({});
+        console.log('rootPage ==> ', event.root)
+      }
+
     }
 
-  
-    ngAfterViewInit() {
-      //this.introTabs.select(1)      
+    change(event: Tab){
+      if(event.root.name == 'SlidePage'){
+        console.log('IntroPage change ==> ', event.root.name)
+        this.slidePageSelected(event)
+      }
+      
+    }
+
+    ngAfterViewChecked() {
+        
     }
 
     ngOnInit() {
-      
+      this.apiAccessProvider.slidesObtidosEvent.subscribe(
+        response => {
+          this.introPageIniciada = true 
+          console.log('IntroPage ---> slides obtidos via apiAccessProvider')        
+        }
+      )
       
     }
 

@@ -70,6 +70,8 @@ export class ResultadoPesquisaPage {
   especialidadeEscolhidaNome: string
 
   loading: Loading
+  loadingDidDismiss: boolean = false
+  
   ultimaInformacaoExibibida: {exibirInformacoes: string}[]=[];
 
   estado = false
@@ -96,6 +98,12 @@ export class ResultadoPesquisaPage {
       })
   
       this.loading.present()
+      this.loading.onDidDismiss(
+        retorno => {
+            console.log('loading dismiss() ---> ',retorno)
+            this.loadingDidDismiss=true
+        }
+      )
 
       this.apiAccessProvider.obterEspecialistasPorCidade(this.cidadeEscolhidaId, this.especialidadeEscolhidaId)
         .subscribe(

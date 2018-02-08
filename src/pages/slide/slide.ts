@@ -19,6 +19,7 @@ export class SlidePage {
   loadingAtivo = false;
 
   slides: Slide[];
+  slidesObtidos = false
 
   cidades: Cidade[];
   especialidades: Especialidade[];
@@ -30,6 +31,7 @@ export class SlidePage {
   };
 
   
+
   cidadeEscolhidaNome: string;
   cidadeEscolhidaId: number;
 
@@ -57,10 +59,13 @@ export class SlidePage {
     getSlides(){
       if(this.apiAccessProvider.slidesObtidos){
         this.slides = this.apiAccessProvider.slides
+        this.desativarLoading()
       }else{
         this.apiAccessProvider.slidesObtidosEvent.subscribe(
           (evento: {slidesObtidos: Slide[]}) => {
             this.slides = evento.slidesObtidos
+            this.slidesObtidos=true
+            this.desativarLoading()
           }
         )
       }
@@ -68,7 +73,7 @@ export class SlidePage {
 
 
   desativarLoading(){
-    if(this.cidades !== undefined && this.especialidades !== undefined){
+    if(this.slides !== undefined && this.cidades !== undefined && this.especialidades !== undefined){
       this.loading.dismiss().then( (retorno) => {
         console.log('SlidePage.desativarLoading => desabilitando loading...')
         this.loadingAtivo=false;
@@ -80,6 +85,7 @@ export class SlidePage {
   getCidades(){
     if(this.apiAccessProvider.cidadesObtidas){
       this.cidades = this.apiAccessProvider.cidades
+      this.desativarLoading()
     }else{
       this.apiAccessProvider.cidadesObtidasEvent.subscribe(
         (evento: {cidadesObtidas: Cidade[]}) => {
@@ -93,6 +99,7 @@ export class SlidePage {
   getEspecialidades(){
     if(this.apiAccessProvider.especialidadesObtidas){
       this.especialidades = this.apiAccessProvider.especialidades
+      this.desativarLoading()
     }else{
       this.apiAccessProvider.especialidadesObtidasEvent.subscribe(
         (evento: {especialidadesObtidas: Especialidade[]}) => {
@@ -103,6 +110,16 @@ export class SlidePage {
     }
   }
 
+  ionViewWillEnter(){
+    console.log('SlidePage --> ionViewWillEnter')
+    if(this.slidesGroup){
+      //console.log('SlidePage --> ionViewWillEnter --> ', this.navCtrl.getPrevious().name)
+      
+      this.slidesGroup.update()
+      //this.navCtrl.goToRoot({})
+    }
+    this.ionSlideAutoplayStop()
+  }
 
   ngOnInit() {
 
@@ -180,10 +197,16 @@ export class SlidePage {
     /* if (this.slides !== undefined) {
       this.slidesGroup.startAutoplay();
     } */
+    
     Observable.timer(6000).subscribe(
       tempo => {
         console.log('SlidesPage.ionSlideAutoplayStop() ---> reiniciando autoplay dos slides')
-        this.slidesGroup.startAutoplay()
+        if(this.slidesGroup){
+          this.slidesGroup.startAutoplay()
+        }else{
+          console.log('SlidePage ==> ionSlideAutoplayStop --> slidesGroup=',this.slidesGroup)
+        }
+        
       }
     )
 }
